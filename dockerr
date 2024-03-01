@@ -1,0 +1,20 @@
+#cree eldocker exec -it <nombre_del_contenedor_o_ID> mysql -u root -p
+ contenedor del backend 
+
+sudo docker run --name backend_dos -p 8000:8000 -w /app -v /home/kamilo/Documentos/spartanv2/fastapi:/app -d -it python bash 
+sudo docker run --name data -p 8080:8080 -w /app -v /home/kamilo/Documentos/analisis:/app -d -it python bash
+
+# este comando es para ingresar al contenedor backend
+# sudo docker exec -it backen_dos bash
+# #crear un contenedor con una imagen definida
+# docker run --name data -p 8000:8000 data_analisis 
+# #necesio ingresar a la abase de datos
+# docker exec -it <nombre_del_contenedor_o_ID> mysql -u root -p
+
+ingresar al contenedor backend
+sudo docker exec -it backend_dos bash
+
+este es para levantar el servidor en el puerto 
+uvicorn main:app --host 0.0.0.0 --port 8080
+uvicorn main:appi --host 0.0.0.0 --port 8000
+
