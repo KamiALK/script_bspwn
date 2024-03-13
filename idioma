@@ -1,0 +1,28 @@
+#primero se installa la aplicacion que cambia los idiomas
+sudo apt-get install xbindkeys
+setxkbmap en
+setxkbmap us
+esos son los comandos para cambiar de idiomas
+
+sudo apt-get install xbindkeys
+
+xbindkeys --defaults > ~/.xbindkeysrc
+se ingresa al archivo 
+ nvim ~/.xbindkeysrc
+
+ en la parte final se colocan los shorcuts
+
+##################################
+# End of xbindkeys configuration #
+##################################
+# Shortcut to switch to Spanish keyboard layout
+"setxkbmap es"
+    Mod4 + F12
+
+# Shortcut to switch to English keyboard layout
+"setxkbmap us"
+    Mod4 + Shift + F12
+
+luego los dos comandos para reiniciar 
+pkill xbindkeys
+xbindkeys
