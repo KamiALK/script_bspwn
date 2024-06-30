@@ -7,14 +7,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
+-- variables de macro 3
+local filtro_uno = 's/\v(.+)/"\1\\n",/'
+local filtro_dos = "s/,$//"
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import any extras modules here
     -- { import = "lazyvim.plugins.extras.lang.typescript" },
-    -- { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.dap.core" },
+    { import = "lazyvim.plugins.extras.ui.mini-animate" },
     -- import/override with your plugins
     { import = "plugins" },
   },
@@ -45,7 +49,6 @@ require("lazy").setup({
     },
   },
 })
-
 require("neo-tree").setup({
   filesystem = {
     filtered_items = {
@@ -90,3 +93,48 @@ require("neo-tree").setup({
     },
   },
 })
+
+local dap = require("dap")
+
+dap.adapters.python = function(cb, config)
+  if config.request == "attach" then
+    local port = (config.connect or config).port
+    local host = (config.connect or config).host or "127.0.0.1"
+    cb({
+      type = "server",
+      host = host,
+      port = port,
+      options = {
+        source_filetype = "python",
+      },
+    })
+  else
+    cb({
+      type = "executable",
+      command = os.getenv("HOME") .. "/.virtualenvs/debugpy/bin/python",
+      args = { "-m", "debugpy.adapter" },
+      options = {
+        source_filetype = "python",
+      },
+    })
+  end
+end
+
+dap.configurations.python = {
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch file",
+    program = "${file}",
+    pythonPath = function()
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+        return cwd .. "/venv/bin/python"
+      elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+        return cwd .. "/.venv/bin/python"
+      else
+        return os.getenv("HOME") .. "/.virtualenvs/debugpy/bin/python"
+      end
+    end,
+  },
+}
