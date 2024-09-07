@@ -1,0 +1,38 @@
+
+-- Función para compilar y ejecutar el archivo Java en el terminal
+local function run_curr_java_file()
+  -- Obtener el nombre completo del archivo en el buffer actual
+  local file_name = vim.api.nvim_buf_get_name(0)
+
+  if file_name:match("%.java$") then
+    -- Extraer el nombre base del archivo sin la extensión
+    local base_name = file_name:match("([^/]+)%.java$")
+    -- Extraer el nombre del directorio que contiene el archivo (paquete)
+    local dir_name = file_name:match(".*/(.-)/[^/]+%.java$")
+
+    if not base_name or not dir_name then
+      print("Error: Unable to extract base name or directory from file path")
+      return
+    end
+
+    -- Ruta al directorio `src`
+    local src_dir = file_name:match("(.*/src)/")
+
+    if not src_dir then
+      print("Error: Unable to locate the src directory")
+      return
+    end
+
+    -- Cambiar directorio a `src` y compilar y ejecutar el archivo Java
+    local compile_cmd = "cd " .. src_dir .. " && javac " .. dir_name .. "/" .. base_name .. ".java"
+    local run_cmd = "java " .. dir_name .. "." .. base_name
+    local terminal_cmd = 'zsh -c "' .. compile_cmd .. " && " .. run_cmd .. '"'
+
+    -- Ejecutar el comando en un terminal dividido
+    vim.cmd("vsplit | terminal " .. terminal_cmd)
+  else
+    print("Error: Not a Java file")
+  end
+end
+
+
