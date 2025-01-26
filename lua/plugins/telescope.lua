@@ -1,5 +1,4 @@
 return {
-
   {
     "echasnovski/mini.hipatterns",
     event = "BufReadPre",
@@ -36,7 +35,7 @@ return {
   },
 
   {
-    "telescope.nvim",
+    "nvim-telescope/telescope.nvim",
     dependencies = {
       {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -143,17 +142,21 @@ return {
       local actions = require("telescope.actions")
       local fb_actions = require("telescope").extensions.file_browser.actions
 
+      -- Asegurar que opts.defaults es una tabla
+      opts.defaults = opts.defaults or {}
+
       opts.defaults = vim.tbl_deep_extend("force", opts.defaults, {
         wrap_results = true,
         layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
+        layout_config = { prompt_position = "top", width = 0.75, height = 0.85 },
         sorting_strategy = "ascending",
         winblend = 0,
         mappings = {
           n = {},
         },
       })
-      opts.pickers = {
+
+      opts.pickers = vim.tbl_deep_extend("force", opts.pickers or {}, {
         diagnostics = {
           theme = "ivy",
           initial_mode = "normal",
@@ -161,16 +164,14 @@ return {
             preview_cutoff = 9999,
           },
         },
-      }
-      opts.extensions = {
+      })
+
+      opts.extensions = vim.tbl_deep_extend("force", opts.extensions or {}, {
         file_browser = {
           theme = "dropdown",
-          -- disables netrw and use telescope-file-browser in its place
           hijack_netrw = true,
           mappings = {
-            -- your custom insert mode mappings
             ["n"] = {
-              -- your custom normal mode mappings
               ["N"] = fb_actions.create,
               ["h"] = fb_actions.goto_parent_dir,
               ["/"] = function()
@@ -183,7 +184,7 @@ return {
               end,
               ["<C-d>"] = function(prompt_bufnr)
                 for i = 1, 10 do
-                  actions.mose_selection_next(prompt_bufnr)
+                  actions.move_selection_next(prompt_bufnr)
                 end
               end,
               ["<PageUp>"] = actions.preview_scrolling_up,
@@ -191,10 +192,12 @@ return {
             },
           },
         },
-      }
+      })
+
+      -- Configurar Telescope
       telescope.setup(opts)
-      require("telescope").load_extension("fzf")
-      require("telescope").load_extension("file_browser")
+      telescope.load_extension("fzf")
+      telescope.load_extension("file_browser")
     end,
   },
 }

@@ -58,16 +58,16 @@ require("lazy").setup({
 require("config.run_python") -- vamos a correr archivos de python
 require("config.run_maven") -- vamos a correr archivos de python
 require("config.run_java") -- vamos a correr archivos de python
+require("config.run_spring") -- vamos a correr archivos de python
 require("dapui").setup()
-
 -- Configuración de nvim-cmp (Autocompletado para Python)
-require("cmp").setup({
-  sources = {
-    { name = "codeium" },
-    { name = "luasnip" },
-    { name = "nvim_lsp" },
-  },
-})
+-- require("cmp").setup({
+--   sources = {
+--     -- { name = "codeium" },
+--     { name = "luasnip" },
+--     -- { name = "nvim_lsp" },
+--   },
+-- })
 require("neo-tree").setup({
   event_handlers = {
 

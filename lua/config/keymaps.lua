@@ -60,6 +60,6 @@ vim.api.nvim_set_keymap(
 vim.api.nvim_set_keymap(
   "n",
   "<A-m>",
-  ":RunMaven<CR>",
+  ":MavenRun<CR>",
   { noremap = true, silent = true, desc = "Run Maven build and execute JAR" }
 )
