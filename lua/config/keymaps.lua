@@ -15,7 +15,8 @@ local opts = { noremap = true, silent = true }
 keymap.set("n", "<C-z>", "u", { noremap = true, silent = true })
 keymap.set("i", "ii", "<esc>")
 keymap.set("t", "ii", [[<C-\><C-n>]])
-
+keymap.set("v", "ii", "<Esc>", { noremap = true, silent = true })
+keymap.set("x", "ii", "<Esc>", { noremap = true, silent = true })
 --split window
 
 -- keymap.set("n", "tr", ":split<return>term vertical resize -10<cr>")
@@ -56,40 +57,42 @@ keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
 
 -- correr archivos python
 vim.api.nvim_set_keymap(
-  "n",
-  "<A-x>",
-  ":RunPythonFile<CR>",
-  { noremap = true, silent = true, desc = "Run .py file via terminal" }
+	"n",
+	"<A-x>",
+	":RunPythonFile<CR>",
+	{ noremap = true, silent = true, desc = "Run .py file via terminal" }
 )
 -- detener archivos python
 vim.api.nvim_set_keymap(
-  "n",
-  "<A-p>",
-  ":StopPythonPrueba<CR>",
-  { noremap = true, silent = true, desc = "Run .py file via terminal" }
+	"n",
+	"<A-p>",
+	":StopPythonPrueba<CR>",
+	{ noremap = true, silent = true, desc = "Run .py file via terminal" }
 )
 vim.api.nvim_set_keymap(
-  "n",
-  "<A-u>",
-  ":JavaCompileAndRunJavaFile<CR>",
-  { noremap = true, silent = true, desc = "Run .java file via terminal" }
+	"n",
+	"<A-u>",
+	":JavaCompileAndRunJavaFile<CR>",
+	{ noremap = true, silent = true, desc = "Run .java file via terminal" }
 )
 
 vim.api.nvim_set_keymap(
-  "n",
-  "<A-m>",
-  ":MavenRun<CR>",
-  { noremap = true, silent = true, desc = "Run Maven build and execute JAR" }
+	"n",
+	"<A-m>",
+	":MavenRun<CR>",
+	{ noremap = true, silent = true, desc = "Run Maven build and execute JAR" }
 )
 -- crear paquetes y clases automaticamente
 
 vim.api.nvim_set_keymap(
-  "n",
-  "<leader>ni",
-  ":set modifiable | lua require('jdtls').code_action()<CR>",
-  { noremap = true, silent = true }
+	"n",
+	"<leader>ni",
+	":set modifiable | lua require('jdtls').code_action()<CR>",
+	{ noremap = true, silent = true }
 )
 
 -- macros
 -- ejecutando comando de typescript con @t
-vim.fn.setreg("t", ":Type\n\22H")
+-- vim.fn.setreg("t", ":Typescript\n\22H")
+
+vim.fn.setreg("t", ":Typescript\n\22Hii")
