@@ -17,6 +17,11 @@ keymap.set("i", "ii", "<esc>")
 keymap.set("t", "ii", [[<C-\><C-n>]])
 keymap.set("v", "ii", "<Esc>", { noremap = true, silent = true })
 keymap.set("x", "ii", "<Esc>", { noremap = true, silent = true })
+
+keymap.set("n", "<CR>", function()
+	vim.cmd("startinsert") -- Cambia a modo terminal insert
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", true)
+end, { noremap = true, silent = true })
 --split window
 
 -- keymap.set("n", "tr", ":split<return>term vertical resize -10<cr>")
